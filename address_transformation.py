@@ -9,7 +9,7 @@ def addresses_from_csv(path=None, column=None):
     addresses = []
 
     with open(path, 'r') as f:
-        reader = csv.reader(f)
+        reader = csv.reader(f, delimiter=';', quoting=csv.QUOTE_NONE)
         for row in reader:
             addresses.append(row[column])
             
