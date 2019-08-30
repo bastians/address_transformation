@@ -1,6 +1,7 @@
 import requests
 import json
 import csv
+import time
 from tqdm import *
 
 def addresses_from_csv(path=None, column=None):
@@ -55,7 +56,7 @@ for query in tqdm(addresses):
     street_and_no = street + ' ' + number
     transformed.append([country, postal_code, city, street_and_no])
     
-with open('transformed_addresses.csv', 'w', newline='', encoding='utf-8') as f:
+with open('output_' + time.strftime('%Y%m%d-%H%M%S') + '.csv', 'w', newline='', encoding='utf-8') as f:
     writer = csv.writer(f)
     for row in transformed:
         writer.writerow(row)
