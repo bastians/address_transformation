@@ -16,7 +16,7 @@ def addresses_from_csv(path=None, column=None):
     return addresses
   
 # Get addresses from CSV
-addresses = addresses_from_csv(path='path/to/your/file.csv', column=0)
+addresses = addresses_from_csv(path='input.csv', column=0)
 
 # Set Google Maps API key
 api_key = YOUR_API_KEY
