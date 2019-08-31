@@ -25,7 +25,7 @@ api_key = YOUR_API_KEY
 
 # Initialize array for transformed addresses
 transformed = []
-transformed.append(['Country', 'Post code', 'City', 'Street & No'])
+transformed.append(['Country', 'Post code', 'City', 'Street', 'Number'])
 
 for query in tqdm(addresses):
     
@@ -55,8 +55,7 @@ for query in tqdm(addresses):
         else:
             continue
 
-    street_and_no = street + ' ' + number
-    transformed.append([country, postal_code, city, street_and_no])
+    transformed.append([country, postal_code, city, street, number])
     
 with open('output_' + time.strftime('%Y%m%d-%H%M%S') + '.csv', 'w', newline='', encoding='utf-8') as f:
     writer = csv.writer(f)
