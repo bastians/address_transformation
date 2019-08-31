@@ -21,7 +21,7 @@ def addresses_from_csv(path=None, column=None):
 addresses = addresses_from_csv(path='input.csv', column=0)
 
 # Set Google Maps API key
-api_key = YOUR_API_KEY
+api_key = 'YOUR_API_KEY'
 
 # Initialize array for transformed addresses
 transformed = []
