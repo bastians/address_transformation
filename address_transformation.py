@@ -10,8 +10,10 @@ def addresses_from_csv(path=None, column=None):
 
     with open(path, 'r') as f:
         reader = csv.reader(f, delimiter=';', quoting=csv.QUOTE_NONE)
+        first_row = next(reader)
         for row in reader:
             addresses.append(row[column])
+            #print(row[column])
             
     return addresses
   
