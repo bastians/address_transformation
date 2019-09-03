@@ -4,7 +4,7 @@ import csv
 import time
 from tqdm import *
 
-def addresses_from_csv(path=None, column=None):
+def addresses_from_csv(path=None, idColumn=None, addrColumn=None):
         
     addresses = []
 
@@ -12,25 +12,26 @@ def addresses_from_csv(path=None, column=None):
         reader = csv.reader(f, delimiter=';', quoting=csv.QUOTE_NONE)
         first_row = next(reader)
         for row in reader:
-            addresses.append(row[column])
-            #print(row[column])
+            addresses.append([row[idColumn],row[addrColumn]])
+            # print(row[idColumn], row[addrColumn])
             
     return addresses
   
 # Get addresses from CSV
-addresses = addresses_from_csv(path='input.csv', column=0)
+addresses = addresses_from_csv(path='input.csv', idColumn=0, addrColumn=1)
+#print(addresses)
 
 # Set Google Maps API key
 api_key = 'YOUR_API_KEY'
 
 # Initialize array for transformed addresses
 transformed = []
-transformed.append(['Country', 'Post code', 'City', 'Street', 'Number'])
+transformed.append(['ID', 'Country', 'Post code', 'City', 'Street', 'Number'])
 
 for query in tqdm(addresses):
     
     # API call, storing information as JSON
-    url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + query + '&lang=en&key=' + api_key
+    url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + query[1] + '&lang=en&key=' + api_key
     r = requests.get(url)
     data = r.json()
     #print(data)
@@ -55,10 +56,10 @@ for query in tqdm(addresses):
         else:
             continue
 
-    transformed.append([country, postal_code, city, street, number])
+    transformed.append([query[0], country, postal_code, city, street, number])
     
 with open('output_' + time.strftime('%Y%m%d-%H%M%S') + '.csv', 'w', newline='', encoding='utf-8') as f:
-    writer = csv.writer(f)
+    writer = csv.writer(f, delimiter=';', quoting=csv.QUOTE_NONE)
     for row in transformed:
         writer.writerow(row)
 
