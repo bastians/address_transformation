@@ -9,10 +9,13 @@ More information about the Google Maps Geocoding API can be found [here](https:/
 
 ## How it works
 Clone the repository
-`git clone git@github.com:bastians/address_transformation.git`
+```
+git clone git@github.com:bastians/address_transformation.git
+```
 and switch to the folder
-`cd address_transformation`
-
+```
+cd address_transformation
+```
 In that folder, prepare the `input.csv` file with the unstructured, inconsistent or incomplete addresses you want to transform. The `input.csv` has two columns: 
 In the first column, you can add ids for the addresses you want to trasnform. The ids are a reference and will be also added to the output file. If you don't have ids, you can leave the column empty but don't remove it and also keep the first delimiter `;`.
 
@@ -35,7 +38,9 @@ id;address
 Add your [Google Maps Geocoding API key](https://developers.google.com/maps/documentation/geocoding/start#get-a-key) to the file `address_transformation.py` and save it.
 
 Execute the script with
-`python address_transformation.py`
+```
+python3 address_transformation.py
+```
 
 An output file with a timestamp is created that contains the transformed and structured address data.
 
