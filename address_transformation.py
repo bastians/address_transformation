@@ -39,27 +39,32 @@ for query in tqdm(addresses):
     # clear all values to avoid appending values from previous iterations a second time
     number = street = country = postal_code = city = '' 
     
-    # looping over address components in JSON
-    for component in data['results'][0]['address_components']:
-        if 'street_number' in component['types']:
-            number = component['long_name']
-        elif 'route' in component['types']:
-            street = component['long_name']
-        elif 'country' in component['types']:
-            country = component['long_name']
-        elif 'postal_code' in component['types']:
-            postal_code = component['long_name']
-        elif 'locality' in component['types']:
-            city = component['long_name']
-        elif 'postal_town' in component['types']:
-            city = component['long_name']
-        else:
-            continue
+    if data['status'] == 'ZERO_RESULTS':
+        transformed.append([query[0], 'N/A', 'N/A', 'N/A', 'N/A', 'N/A'])
+        print(url)
+        print(data)
+    else:
+        # looping over address components in JSON
+        for component in data['results'][0]['address_components']:
+            if 'street_number' in component['types']:
+                number = component['long_name']
+            elif 'route' in component['types']:
+                street = component['long_name']
+            elif 'country' in component['types']:
+                country = component['long_name']
+            elif 'postal_code' in component['types']:
+                postal_code = component['long_name']
+            elif 'locality' in component['types']:
+                city = component['long_name']
+            elif 'postal_town' in component['types']:
+                city = component['long_name']
+            else:
+                continue
 
-    transformed.append([query[0], country, postal_code, city, street, number])
+        transformed.append([query[0], country, postal_code, city, street, number])
     
 with open('output_' + time.strftime('%Y%m%d-%H%M%S') + '.csv', 'w', newline='', encoding='utf-8') as f:
-    writer = csv.writer(f, delimiter=';', quoting=csv.QUOTE_NONE)
+    writer = csv.writer(f, delimiter=';', quoting=csv.QUOTE_NONE, quotechar='',escapechar='\\')
     for row in transformed:
         writer.writerow(row)
 
