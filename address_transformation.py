@@ -64,7 +64,7 @@ for query in tqdm(addresses):
         transformed.append([query[0], country, postal_code, city, street, number])
     
 with open('output_' + time.strftime('%Y%m%d-%H%M%S') + '.csv', 'w', newline='', encoding='utf-8') as f:
-    writer = csv.writer(f, delimiter=';', quoting=csv.QUOTE_NONE, quotechar='',escapechar='\\')
+    writer = csv.writer(f, delimiter=';', quoting=csv.QUOTE_ALL, quotechar='"')
     for row in transformed:
         writer.writerow(row)
 
