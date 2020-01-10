@@ -26,7 +26,7 @@ api_key = 'YOUR_API_KEY'
 
 # Initialize array for transformed addresses
 transformed = []
-transformed.append(['ID', 'Street (Short)', 'Street', 'Number', 'Post code', 'City', 'Country'])
+transformed.append(['ID', 'Street', 'Street (Short)', 'Number', 'Post code', 'City', 'State', 'State (Short)', 'Country'])
 
 for query in tqdm(addresses):
     
