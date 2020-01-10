@@ -37,10 +37,10 @@ for query in tqdm(addresses):
     #print(data)
     
     # clear all values to avoid appending values from previous iterations a second time
-    number = street_short = street = country = postal_code = city = '' 
+    number = street_short = street = country = postal_code = city = state = state_short = '' 
     
     if data['status'] == 'ZERO_RESULTS':
-        transformed.append([query[0], 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A'])
+        transformed.append([query[0], 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A'])
         print(url)
         print(data)
     else:
@@ -53,6 +53,9 @@ for query in tqdm(addresses):
                 street_short = component['short_name']
             elif 'country' in component['types']:
                 country = component['long_name']
+            elif 'administrative_area_level_1' in component['types']:
+                state = component['long_name']
+                state_short = component['short_name']
             elif 'postal_code' in component['types']:
                 postal_code = component['long_name']
             elif 'locality' in component['types']:
@@ -62,7 +65,7 @@ for query in tqdm(addresses):
             else:
                 continue
 
-        transformed.append([query[0], street, street_short, number, postal_code, city, country])
+        transformed.append([query[0], street, street_short, number, postal_code, city, state, state_short, country])
     
 with open('output_' + time.strftime('%Y%m%d-%H%M%S') + '.csv', 'w', newline='', encoding='utf-8') as f:
     writer = csv.writer(f, delimiter=';', quoting=csv.QUOTE_ALL, quotechar='"')
