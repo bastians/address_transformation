@@ -26,7 +26,7 @@ api_key = 'YOUR_API_KEY'
 
 # Initialize array for transformed addresses
 transformed = []
-transformed.append(['ID', 'Country', 'Post code', 'City', 'Street', 'Number'])
+transformed.append(['ID', 'Street (Short)', 'Street', 'Number', 'Post code', 'City', 'Country'])
 
 for query in tqdm(addresses):
     
@@ -37,10 +37,10 @@ for query in tqdm(addresses):
     #print(data)
     
     # clear all values to avoid appending values from previous iterations a second time
-    number = street = country = postal_code = city = '' 
+    number = street_short = street = country = postal_code = city = '' 
     
     if data['status'] == 'ZERO_RESULTS':
-        transformed.append([query[0], 'N/A', 'N/A', 'N/A', 'N/A', 'N/A'])
+        transformed.append([query[0], 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A'])
         print(url)
         print(data)
     else:
@@ -50,6 +50,7 @@ for query in tqdm(addresses):
                 number = component['long_name']
             elif 'route' in component['types']:
                 street = component['long_name']
+                street_short = component['short_name']
             elif 'country' in component['types']:
                 country = component['long_name']
             elif 'postal_code' in component['types']:
@@ -61,7 +62,7 @@ for query in tqdm(addresses):
             else:
                 continue
 
-        transformed.append([query[0], country, postal_code, city, street, number])
+        transformed.append([query[0], street, street_short, number, postal_code, city, country])
     
 with open('output_' + time.strftime('%Y%m%d-%H%M%S') + '.csv', 'w', newline='', encoding='utf-8') as f:
     writer = csv.writer(f, delimiter=';', quoting=csv.QUOTE_ALL, quotechar='"')
